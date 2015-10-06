@@ -8,7 +8,8 @@ contract ConferenceSimple {
 	}
 
 	address owner;
-	mapping (uint => Registrant) registrants;
+	mapping (address => uint) registrantsPaid;
+	mapping (address => string) registrantsEmail;
 	uint numRegistrants;
 	uint quota;
 
@@ -22,25 +23,15 @@ contract ConferenceSimple {
 	// Default buy a ticket
 	function () {
 		if (numRegistrants >= quota) { return; }
-		registrants[numRegistrants++] = 
-			Registrant({ 
-				addr: msg.sender,
-				amount: msg.value,
-				registered: true,
-				email: ''
-			});
+		registrantsPaid[msg.sender] = msg.value;
+		numRegistrants++;
 	}
 	
 	// Buy a ticket with email - should this be done at all?
-	function buyTicketAddEmail(string _email) {
+	function buyTicketWithEmail(string _email) {
 		if (numRegistrants >= quota) { return; }
-		registrants[numRegistrants++] =
-			Registrant({ 
-				addr: msg.sender,
-				amount: msg.value,
-				registered: true,
-				email: _email
-			});
+		registrantsPaid[msg.sender] = msg.value;
+		registrantsEmail[msg.sender] = _email;
 		numRegistrants++;
 	}
 
@@ -52,25 +43,17 @@ contract ConferenceSimple {
 
 	function refundTicket(address recipient, uint amount) returns(bool success) {
 		if (msg.sender != owner) { return false; }
-		if (removeRegistrant(recipient)) {
+		if (registrantsPaid[recipient] == amount) {
 			if (owner.balance > amount) { 
 				recipient.send(amount);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function removeRegistrant(address regAddress) returns(bool success) {
-		for (uint i = 0; i < numRegistrants; i++) {
-			if (registrants[i].addr == regAddress && registrants[i].registered) {
-				registrants[i].registered = false;
+				registrantsEmail[msg.sender] = '';
 				numRegistrants--;
 				return true;
 			}
 		}
 		return false;
 	}
+
 
 	function destroy() {
 		if (msg.sender == owner){
