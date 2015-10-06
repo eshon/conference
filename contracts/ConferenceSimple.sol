@@ -46,6 +46,7 @@ contract ConferenceSimple {
 		if (registrantsPaid[recipient] == amount) {
 			if (owner.balance > amount) { 
 				recipient.send(amount);
+				registrantsPaid[recipient] = 0;
 				registrantsEmail[msg.sender] = '';
 				numRegistrants--;
 				return true;
