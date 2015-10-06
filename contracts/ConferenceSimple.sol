@@ -36,7 +36,7 @@ contract ConferenceSimple {
 
 	function refundTicket(address recipient, uint amount) returns(bool success) {
 		if (msg.sender != owner) { return false; }
-		if (registrantsPaid[recipient] == amount) {
+		if (registrantsPaid[recipient] == amount) { // this may need to be more within a close enough range?
 			if (owner.balance > amount) { 
 				recipient.send(amount);
 				registrantsPaid[recipient] = 0;
