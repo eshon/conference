@@ -1,12 +1,5 @@
 contract ConferenceSimple {
 
-	struct Registrant {
-		address addr;
-		uint amount;
-		bool registered;
-		string email;
-	}
-
 	address owner;
 	mapping (address => uint) registrantsPaid;
 	mapping (address => string) registrantsEmail;
