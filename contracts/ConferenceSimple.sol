@@ -3,30 +3,45 @@ contract ConferenceSimple {
 	struct Registrant {
 		address addr;
 		uint amount;
+		bool registered;
+		string email;
 	}
 
 	address owner;
-	Registrant[] registrants; // for refunds
+	mapping (uint => Registrant) registrants;
+	uint numRegistrants;
 	uint quota;
 
 
 	function Conference() {
 		owner = msg.sender;		
 		quota = 350; // confirm quota amount
+		numRegistrants = 0;
 	}
 
 	// Default buy a ticket
 	function () {
-		if (registrants.length >= quota) { return; }
-		registrants[registrants.length++] =
-			Registrant({ addr: msg.sender, amount: msg.value });
+		if (numRegistrants >= quota) { return; }
+		registrants[numRegistrants++] = 
+			Registrant({ 
+				addr: msg.sender,
+				amount: msg.value,
+				registered: true,
+				email: ''
+			});
 	}
 	
 	// Buy a ticket with email - should this be done at all?
 	function buyTicketAddEmail(string _email) {
-		if (registrants.length >= quota) { return; }
-		registrants[registrants.length++] =
-			Registrant({ addr: msg.sender, amount: msg.value, email: _email});
+		if (numRegistrants >= quota) { return; }
+		registrants[numRegistrants++] =
+			Registrant({ 
+				addr: msg.sender,
+				amount: msg.value,
+				registered: true,
+				email: _email
+			});
+		numRegistrants++;
 	}
 
 	function changeQuota(uint newquota) returns(bool success) {
@@ -34,14 +49,6 @@ contract ConferenceSimple {
 		quota = newquota;
 		return true;
 	}
-
-	// GET LIST OF REGISTRANTS
-	/*
-	This doesn't compile
-	function getRegistrants() returns(Registrant[]) {
-		return registrants;
-	}
-	*/
 
 	function refundTicket(address recipient, uint amount) returns(bool success) {
 		if (msg.sender != owner) { return false; }
@@ -55,13 +62,10 @@ contract ConferenceSimple {
 	}
 
 	function removeRegistrant(address regAddress) returns(bool success) {
-		for (uint i = 0; i < registrants.length; i++) {
+		for (uint i = 0; i < numRegistrants; i++) {
 			if (registrants[i].addr == regAddress) {
-				delete registrants[i];
-				for (uint m = i; m < registrants.length - 1; m++) {
-					registrants[m] = registrants[m+1];
-				}
-				registrants.length--;
+				registrants[i].registered = false;
+				numRegistrants--;
 				return true;
 			}
 		}
