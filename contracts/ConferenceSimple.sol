@@ -21,6 +21,13 @@ contract ConferenceSimple {
 		registrants[registrants.length++] =
 			Registrant({ addr: msg.sender, amount: msg.value });
 	}
+	
+	// Buy a ticket with email - should this be done at all?
+	function buyTicketAddEmail(string _email) {
+		if (registrants.length >= quota) { return; }
+		registrants[registrants.length++] =
+			Registrant({ addr: msg.sender, amount: msg.value, email: _email});
+	}
 
 	function changeQuota(uint newquota) returns(bool success) {
 		if (msg.sender != owner) { return false; }
