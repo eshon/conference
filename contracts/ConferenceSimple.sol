@@ -63,7 +63,7 @@ contract ConferenceSimple {
 
 	function removeRegistrant(address regAddress) returns(bool success) {
 		for (uint i = 0; i < numRegistrants; i++) {
-			if (registrants[i].addr == regAddress) {
+			if (registrants[i].addr == regAddress && registrants[i].registered) {
 				registrants[i].registered = false;
 				numRegistrants--;
 				return true;
