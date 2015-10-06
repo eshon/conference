@@ -37,6 +37,7 @@ contract ConferenceSimple {
 
 	// GET LIST OF REGISTRANTS
 	/*
+	This doesn't compile
 	function getRegistrants() returns(Registrant[]) {
 		return registrants;
 	}
