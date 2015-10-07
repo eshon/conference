@@ -72,8 +72,9 @@ contract('Conference', function(accounts) {
   	
   	Conference.new({from: owner_account}).then(
   		function(conference) {
-  			conference.buyTicketWithEmail({
-  				from: sender_account, value: web3.toWei(1, 'ether')}, "email")
+  			console.log("sending value " + web3.toWei(1, 'ether'));
+  			conference.buyTicketWithEmail(
+  				{ from: sender_account, value: web3.toWei(1, 'ether') }, "email")
   			.then(
   				function(result) {
   					console.log("Is there any result? " +  result);
@@ -83,10 +84,11 @@ contract('Conference', function(accounts) {
   					return conference.numRegistrants.call(); 
   			}).then(
   				function(num) { 
-  					assert.isAbove(num, 0, "there should be more registrants");
+  					assert.equal(num, 1, "there should be 1 registrants");
   					return conference.registrantsPaid.call(sender_account);
   			}).then(
   				function(amount) {
+  					console.log("paid " + amount.toNumber());
   					assert.isAbove(amount.toNumber(), 0, "Sender's paid but is not listed as paying");	
   					return conference.registrantsEmail.call(sender_account);
   			}).then(

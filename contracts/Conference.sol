@@ -20,12 +20,11 @@ contract Conference {
 	}
 	
 	// Buy a ticket with email - should this be done at all?
-	function buyTicketWithEmail(string _email) public returns(uint val) {
-		if (numRegistrants >= quota) { return 0; }
+	function buyTicketWithEmail(string _email) public {
+		if (numRegistrants >= quota) { return; }
 		registrantsPaid[msg.sender] = msg.value;
 		registrantsEmail[msg.sender] = _email;
 		numRegistrants++;
-		return msg.value;
 	}
 
 	function changeQuota(uint newquota) public {
