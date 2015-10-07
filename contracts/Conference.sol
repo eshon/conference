@@ -19,6 +19,7 @@ contract Conference {
 		if (numRegistrants >= quota) { return; }
 		registrantsPaid[msg.sender] = msg.value;
 		numRegistrants++;
+		Send(msg.sender, owner, msg.value);
 	}
 	
 	function buyTicket() public returns (bool success) {
@@ -29,7 +30,7 @@ contract Conference {
 		return true;
 	}
 
-	// Buy a ticket with email - should this be done at all?
+	// Buy a ticket and record email
 	function buyTicketWithEmail(string _email) public returns (bool success) {
 		if (numRegistrants >= quota) { return false; }
 		registrantsPaid[msg.sender] = msg.value;
@@ -52,10 +53,11 @@ contract Conference {
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) returns(bool success) {
+	function refundTicket(address recipient, uint amount) public returns(bool success) {
 		if (msg.sender != owner) { return false; }
-		if (registrantsPaid[recipient] == amount) { // this may need to be more within a close enough range?
+		if (registrantsPaid[recipient] == amount) { 
 			if (owner.balance > amount) { 
+				//Send(owner, recipient, amount);
 				recipient.send(amount);
 				registrantsPaid[recipient] = 0;
 				registrantsEmail[msg.sender] = '';

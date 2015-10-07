@@ -78,8 +78,7 @@ contract('Conference', function(accounts) {
   			conference.buyTicketWithEmail( "email", 
   				{ from: sender_account, value: ticketPrice })
         .then(
-  				function(result) {
-  					console.log("Is there any result? " +  result);
+  				function() {
   					var newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
   					console.log("New Balance", newBalance);
   					assert.isAbove(newBalance, initialBalance, "new balance should be greater than initial");
@@ -104,5 +103,45 @@ contract('Conference', function(accounts) {
   			}).catch(done);
   	}).catch(done);
   });
+
+  it("Should issue a refund by owner only", function(done) {
+    var c = Conference.at(Conference.deployed_address);
+
+    var initialBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber()); 
+    console.log("Initial Balance", initialBalance);
+    
+    Conference.new({from: owner_account}).then(
+      function(conference) {
+        var ticketPrice = web3.toWei(5, 'ether');
+        console.log("sending value " + ticketPrice);
+        var newBalance;
+
+        conference.buyTicket(
+          { from: sender_account, value: ticketPrice })
+        .then(
+          function(result) {
+            newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
+            console.log("New Balance", newBalance);
+            assert.isAbove(newBalance, initialBalance, "New balance should be greater than initial");
+            var difference = Number(newBalance - initialBalance);
+            console.log("Difference is .... " + difference);
+            // FIX
+            assert.closeTo(difference, Number(web3.fromWei(ticketPrice)), Number(web3.toWei(.1, 'ether')), "Difference should be close to ticket price");
+            return conference.getRegPaid.call(sender_account);
+        }).then(
+          function(amount) {
+            assert.equal(amount.toNumber(), ticketPrice, "Sender's paid but is not listed as paying");
+            console.log("Now issue refund of amount ...." + ticketPrice);
+            return conference.refundTicket.call(sender_account, ticketPrice);
+        }).then(
+          function(result) {
+            assert.equal(true, result, "Refund result should be true");
+            var postRefundBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber()); 
+            assert.closeTo(Number(initialBalance), Number(postRefundBalance), 30, "Post refund balance should be close to initial");
+            assert.isBelow(Number(postRefundBalance), newBalance, "After refund balance should be less");
+            done();
+        }).catch(done);
+      }).catch(done);
+    });
 });
 
