@@ -18,7 +18,7 @@ contract('Conference', function(accounts) {
   it("Initial conference settings should match", function(done) {
     var c = Conference.at(Conference.deployed_address);
   	
-  	Conference.new({sender: owner_account}).then(
+  	Conference.new({from: owner_account}).then(
   		function(conference) {
   			conference.quota.call()
   			.then(
@@ -39,6 +39,30 @@ contract('Conference', function(accounts) {
   	}).catch(done);
   });
 
+  it("Should update quota", function(done) {
+    var c = Conference.at(Conference.deployed_address);
+  	
+  	Conference.new({from: owner_account}).then(
+  		function(conference) {
+  			conference.quota.call()
+  			.then(
+  				function(quota) { 
+  					assert.equal(quota, 350, "Quota doesn't match!"); 
+  			}).then(
+  				function() { 
+  					return conference.changeQuota(300);
+  			}).then(
+  				function(result) { 
+  					console.log("Quota change result: " + result);
+  					return conference.quota.call()
+  			}).then(
+  				function(quota) { 
+  					assert.equal(quota, 300, "New quota is not correct!");
+  					done();
+  			}).catch(done);
+  	}).catch(done);
+  });
+
 
   it("Should let you buy a ticket", function(done) {
     var c = Conference.at(Conference.deployed_address);
@@ -46,11 +70,13 @@ contract('Conference', function(accounts) {
     var initialBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());	
     console.log("Initial Balance", initialBalance);
   	
-  	Conference.new({sender: owner_account}).then(
+  	Conference.new({from: owner_account}).then(
   		function(conference) {
-  			conference.buyTicketWithEmail({sender: sender_account, value: web3.toWei(1000)}, "email")
+  			conference.buyTicketWithEmail({
+  				from: sender_account, value: web3.toWei(1, 'ether')}, "email")
   			.then(
-  				function() {
+  				function(result) {
+  					console.log("Is there any result? " +  result);
   					var newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
   					console.log("New Balance", newBalance);
   					assert.isAbove(newBalance, initialBalance, "new balance should be greater than initial");

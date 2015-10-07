@@ -28,10 +28,9 @@ contract Conference {
 		return msg.value;
 	}
 
-	function changeQuota(uint newquota) returns(bool success) {
-		if (msg.sender != owner) { return false; }
+	function changeQuota(uint newquota) public {
+		if (msg.sender != owner) { return; }
 		quota = newquota;
-		return true;
 	}
 
 	function refundTicket(address recipient, uint amount) returns(bool success) {
