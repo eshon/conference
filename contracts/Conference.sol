@@ -2,7 +2,7 @@ contract Conference {
 
 	address public owner;
 	mapping (address => uint) public registrantsPaid;
-	mapping (address => string) public registrantsEmail;
+	mapping (address => bytes32) public registrantsEmail;
 	uint public numRegistrants;
 	uint public quota;
 
@@ -20,11 +20,15 @@ contract Conference {
 	}
 	
 	// Buy a ticket with email - should this be done at all?
-	function buyTicketWithEmail(string _email) public {
+	function buyTicketWithEmail(bytes32 _email) public {
 		if (numRegistrants >= quota) { return; }
 		registrantsPaid[msg.sender] = msg.value;
 		registrantsEmail[msg.sender] = _email;
 		numRegistrants++;
+	}
+
+	function getRegPaid(address _address) constant returns(uint balance) {
+		return registrantsPaid[_address];
 	}
 
 	function changeQuota(uint newquota) public {

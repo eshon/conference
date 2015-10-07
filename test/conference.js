@@ -85,15 +85,17 @@ contract('Conference', function(accounts) {
   			}).then(
   				function(num) { 
   					assert.equal(num, 1, "there should be 1 registrants");
-  					return conference.registrantsPaid.call(sender_account);
+  					console.log("getRegistrantsPaid for " + sender_account);
+  					return conference.getRegPaid(sender_account);
   			}).then(
   				function(amount) {
+            console.log(amount);
   					console.log("paid " + amount.toNumber());
   					assert.isAbove(amount.toNumber(), 0, "Sender's paid but is not listed as paying");	
   					return conference.registrantsEmail.call(sender_account);
   			}).then(
   				function(email) {
-  					assert.equal(email.toString(), "email", "Sender's email does not match");
+  					assert.equal(cleanString(email.toString()), "email", "Sender's email does not match");
   					return web3.fromWei(web3.eth.getBalance(sender_account));
   			}).then(
   				function(bal) {
