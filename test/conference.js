@@ -72,10 +72,12 @@ contract('Conference', function(accounts) {
   	
   	Conference.new({from: owner_account}).then(
   		function(conference) {
-  			console.log("sending value " + web3.toWei(1, 'ether'));
-  			conference.buyTicketWithEmail(
-  				{ from: sender_account, value: web3.toWei(1, 'ether') }, "email")
-  			.then(
+        var ticketPrice = web3.toWei(.5, 'ether');
+  			console.log("sending value " + ticketPrice);
+
+  			conference.buyTicketWithEmail( "email", 
+  				{ from: sender_account, value: ticketPrice })
+        .then(
   				function(result) {
   					console.log("Is there any result? " +  result);
   					var newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
@@ -86,20 +88,18 @@ contract('Conference', function(accounts) {
   				function(num) { 
   					assert.equal(num, 1, "there should be 1 registrants");
   					console.log("getRegistrantsPaid for " + sender_account);
-  					return conference.getRegPaid(sender_account);
+  					return conference.getRegPaid.call(sender_account);
   			}).then(
   				function(amount) {
-            console.log(amount);
-  					console.log("paid " + amount.toNumber());
-  					assert.isAbove(amount.toNumber(), 0, "Sender's paid but is not listed as paying");	
-  					return conference.registrantsEmail.call(sender_account);
+  					assert.equal(amount.toNumber(), ticketPrice, "Sender's paid but is not listed as paying");	
+  					return conference.getRegEmail.call(sender_account);
   			}).then(
   				function(email) {
   					assert.equal(cleanString(email.toString()), "email", "Sender's email does not match");
-  					return web3.fromWei(web3.eth.getBalance(sender_account));
+  					return web3.fromWei(web3.eth.getBalance(owner_account));
   			}).then(
   				function(bal) {
-  					console.log("bal sender", bal.toNumber());
+  					console.log("Final balance owner", bal.toNumber());
   					done();
   			}).catch(done);
   	}).catch(done);

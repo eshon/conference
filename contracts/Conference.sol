@@ -1,10 +1,12 @@
 contract Conference {
 
 	address public owner;
-	mapping (address => uint) public registrantsPaid;
-	mapping (address => bytes32) public registrantsEmail;
+	mapping (address => uint) registrantsPaid;
+	mapping (address => string) registrantsEmail;
 	uint public numRegistrants;
 	uint public quota;
+
+	event Send(address from, address to, uint value);
 
 	function Conference() {
 		owner = msg.sender;		
@@ -19,16 +21,30 @@ contract Conference {
 		numRegistrants++;
 	}
 	
+	function buyTicket() public returns (bool success) {
+		if (numRegistrants >= quota) { return false; }
+		registrantsPaid[msg.sender] = msg.value;
+		numRegistrants++;
+		Send(msg.sender, owner, msg.value);
+		return true;
+	}
+
 	// Buy a ticket with email - should this be done at all?
-	function buyTicketWithEmail(bytes32 _email) public {
-		if (numRegistrants >= quota) { return; }
+	function buyTicketWithEmail(string _email) public returns (bool success) {
+		if (numRegistrants >= quota) { return false; }
 		registrantsPaid[msg.sender] = msg.value;
 		registrantsEmail[msg.sender] = _email;
 		numRegistrants++;
+		Send(msg.sender, owner, msg.value);
+		return true;
 	}
 
-	function getRegPaid(address _address) constant returns(uint balance) {
+	function getRegPaid(address _address) public returns(uint amtPaid) {
 		return registrantsPaid[_address];
+	}
+
+	function getRegEmail(address _address) public returns(string email) {
+		return registrantsEmail[_address];
 	}
 
 	function changeQuota(uint newquota) public {
