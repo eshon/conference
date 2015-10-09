@@ -67,21 +67,22 @@ contract('Conference', function(accounts) {
   it("Should let you buy a ticket", function(done) {
     var c = Conference.at(Conference.deployed_address);
 
-    var initialBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());	
-    console.log("Initial Balance", initialBalance);
-  	
   	Conference.new({from: owner_account}).then(
-  		function(conference) {
-        var ticketPrice = web3.toWei(.5, 'ether');
-  			console.log("sending value " + ticketPrice);
 
-  			conference.buyTicketWithEmail( "email", 
+  		function(conference) {
+        var ticketPrice = web3.toWei(.05, 'ether');
+  			console.log("sending value " + ticketPrice);
+        var initialBalance = web3.eth.getBalance(conference.address).toNumber();  
+        console.log("Initial Balance", initialBalance);
+
+  			conference.buyTicket(
   				{ from: sender_account, value: ticketPrice })
         .then(
-  				function() {
-  					var newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
+          function() {
+  					var newBalance = web3.eth.getBalance(conference.address).toNumber();
   					console.log("New Balance", newBalance);
-  					assert.isAbove(newBalance, initialBalance, "new balance should be greater than initial");
+            var difference = newBalance - initialBalance;
+  					assert.equal(difference, ticketPrice, "Difference should be what was sent");
   					return conference.numRegistrants.call(); 
   			}).then(
   				function(num) { 
@@ -95,10 +96,10 @@ contract('Conference', function(accounts) {
   			}).then(
   				function(email) {
   					assert.equal(cleanString(email.toString()), "email", "Sender's email does not match");
-  					return web3.fromWei(web3.eth.getBalance(owner_account));
+  					return web3.fromWei(web3.eth.getBalance(conference.address));
   			}).then(
   				function(bal) {
-  					console.log("Final balance owner", bal.toNumber());
+  					console.log("Final balance contract ", bal.toNumber());
   					done();
   			}).catch(done);
   	}).catch(done);
@@ -107,7 +108,7 @@ contract('Conference', function(accounts) {
   it("Should issue a refund by owner only", function(done) {
     var c = Conference.at(Conference.deployed_address);
 
-    var initialBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber()); 
+    var initialBalance = web3.fromWei(web3.eth.getBalance(contractAddr).toNumber()); 
     console.log("Initial Balance", initialBalance);
     
     Conference.new({from: owner_account}).then(
@@ -120,7 +121,7 @@ contract('Conference', function(accounts) {
           { from: sender_account, value: ticketPrice })
         .then(
           function(result) {
-            newBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber());
+            newBalance = web3.fromWei(web3.eth.getBalance(contractAddr).toNumber());
             console.log("New Balance", newBalance);
             assert.isAbove(newBalance, initialBalance, "New balance should be greater than initial");
             var difference = Number(newBalance - initialBalance);
@@ -136,7 +137,7 @@ contract('Conference', function(accounts) {
         }).then(
           function(result) {
             assert.equal(true, result, "Refund result should be true");
-            var postRefundBalance = web3.fromWei(web3.eth.getBalance(owner_account).toNumber()); 
+            var postRefundBalance = web3.fromWei(web3.eth.getBalance(contractAddr).toNumber()); 
             assert.closeTo(Number(initialBalance), Number(postRefundBalance), 30, "Post refund balance should be close to initial");
             assert.isBelow(Number(postRefundBalance), newBalance, "After refund balance should be less");
             done();
