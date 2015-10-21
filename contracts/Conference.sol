@@ -1,64 +1,42 @@
-contract Conference {
+contract Conference {  // can be killed, so the owner gets sent the money in the end
 
-	address public owner;
-	mapping (address => uint) registrantsPaid;
-	mapping (address => string) registrantsEmail;
+	address public organizer;
+	mapping (address => uint) public registrantsPaid;
 	uint public numRegistrants;
 	uint public quota;
 
+	event Deposit(address _from, uint _amount); // so you can log the event
+	event Refund(address _to, uint _amount); // so you can log the event
+
 	function Conference() {
-		owner = msg.sender;		
-		quota = 350; // confirm quota amount
+		organizer = msg.sender;		
+		quota = 350;
 		numRegistrants = 0;
 	}
 
-	// Default buy a ticket
-	/*
-	function () {
-		if (numRegistrants >= quota) { return; }
-		registrantsPaid[msg.sender] = msg.value;
-		numRegistrants++;
-	}*/
-	
 	function buyTicket() public returns (bool success) {
 		if (numRegistrants >= quota) { return false; }
 		registrantsPaid[msg.sender] = msg.value;
 		numRegistrants++;
+		Deposit(msg.sender, msg.value);
 		return true;
-	}
-
-	// Buy a ticket and record email
-	function buyTicketWithEmail(string _email) public returns (bool success) {
-		if (numRegistrants >= quota) { return false; }
-		registrantsPaid[msg.sender] = msg.value;
-		registrantsEmail[msg.sender] = _email;
-		numRegistrants++;
-		return true;
-	}
-
-	function getRegPaid(address _address) public returns(uint amtPaid) {
-		return registrantsPaid[_address];
-	}
-
-	function getRegEmail(address _address) public returns(string email) {
-		return registrantsEmail[_address];
 	}
 
 	function changeQuota(uint newquota) public {
-		if (msg.sender != owner) { return; }
+		if (msg.sender != organizer) { return; }
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) public returns(bool success) {
-		if (msg.sender != owner) { return false; }
+	function refundTicket(address recipient, uint amount) public returns (bool success) {
+		if (msg.sender != organizer) { return false; }
 		if (registrantsPaid[recipient] == amount) { 
-		address myAddress = this;
+			address myAddress = this;
 			if (myAddress.balance >= amount) { 
-				//Send(owner, recipient, amount);
 				recipient.send(amount);
+				Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
-				registrantsEmail[msg.sender] = '';
 				numRegistrants--;
+				
 				return true;
 			}
 		}
@@ -66,8 +44,8 @@ contract Conference {
 	}
 
 	function destroy() {
-		if (msg.sender == owner){
-			suicide(owner);
+		if (msg.sender == organizer) { // without this funds could be locked in the contract forever!
+			suicide(organizer);
 		}
 	}
 }

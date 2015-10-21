@@ -1,143 +1,114 @@
 {
   "Conference": {
     "source": ".//contracts/Conference.sol",
-    "binary": "0x60606040525b33600060006101000a81548173ffffffffffffffffffffffffffffffffffffffff0219169083021790555061015e60046000508190555060006003600050819055505b610851806100566000396000f3606060405236156100a0576000357c01000000000000000000000000000000000000000000000000000000009004806307c24b29146100a25780634a781b54146100c9578063705099b91461012f57806383197ef01461015c5780638da5cb5b14610169578063a977c71e146101a0578063cebe09c9146101b3578063d88b3c86146101d4578063ec3a6f7314610253578063edca914c14610274576100a0565b005b6100b360048035906020015061045b565b6040518082815260200191505060405180910390f35b6101196004803590602001906004018035906020019191908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050905061033f565b6040518082815260200191505060405180910390f35b6101466004803590602001803590602001506105ad565b6040518082815260200191505060405180910390f35b6101676004506107bd565b005b610174600450610295565b604051808273ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101b1600480359060200150610543565b005b6101be6004506102c4565b6040518082815260200191505060405180910390f35b6101e5600480359060200150610499565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156102455780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61025e6004506102bb565b6040518082815260200191505060405180910390f35b61027f6004506102cd565b6040518082815260200191505060405180910390f35b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60036000505481565b60046000505481565b60006004600050546003600050541015156102eb576000905061033c565b34600160005060003373ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000508190555060036000818150548092919060010191905055506001905061033c565b90565b600060046000505460036000505410151561035d5760009050610456565b34600160005060003373ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000508190555081600260005060003373ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050908051906020019082805482825590600052602060002090601f0160209004810192821561040c579182015b8281111561040b5782518260005055916020019190600101906103ed565b5b5090506104379190610419565b808211156104335760008181506000905550600101610419565b5090565b5050600360008181505480929190600101919050555060019050610456565b919050565b6000600160005060008373ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050549050610494565b919050565b6020604051908101604052806000815260200150600260005060008373ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050805480601f0160208091040260200160405190810160405280929190818152602001828054801561053257820191906000526020600020905b81548152906001019060200180831161051557829003601f168201915b5050505050905061053e565b919050565b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561059f576105aa565b806004600050819055505b50565b60006000600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561061157600091506107b6565b82600160005060008673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000505414156107ad57309050828173ffffffffffffffffffffffffffffffffffffffff16311015156107ac578373ffffffffffffffffffffffffffffffffffffffff16600084604051809050600060405180830381858888f19350505050506000600160005060008673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050819055506020604051908101604052806000815260200150600260005060003373ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600050908051906020019082805482825590600052602060002090601f01602090048101928215610761579182015b82811115610760578251826000505591602001919060010190610742565b5b50905061078c919061076e565b80821115610788576000818150600090555060010161076e565b5090565b5050600360008181505480929190600190039190505550600191506107b6565b5b600091506107b6565b5092915050565b600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141561084e57600060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b5b56",
+    "binary": "606060405260008054600160a060020a0319163317815561015e60035560025561028f8061002d6000396000f36060604052361561006c5760e060020a600035046313381fbf811461006e5780636120326514610086578063705099b91461009857806383197ef0146100c4578063a977c71e146100ee578063cebe09c914610112578063ec3a6f731461011b578063edca914c14610124575b005b61013b60043560016020526000908152604090205481565b61014d600054600160a060020a031681565b61013b600435602435600080548190600160a060020a039081163391909116146101c2575b5092915050565b61006c600054600160a060020a039081163391909116141561028d57600054600160a060020a0316ff5b61013b60043560008054600160a060020a039081163391909116146101b4576101bd565b61013b60035481565b61013b60025481565b61013b6003546002546000919010610157576101b1565b60408051918252519081900360200190f35b6060908152602090f35b600160a060020a03331680825260016020819052604080842034908190556002805490930190925560609283526080919091527fe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c91a15060015b90565b50600381905560015b919050565b600160a060020a0384168152600160205260408120548314156100bd575030600160a060020a038116318390106100bd57600160a060020a0384168284606082818181858883f1505060408051938452602084019190915280517fbb28353e4598c3b9199101a66e0989549b659a59a54d2c27fbb183f1932c8e6d938190039091019150a160006001600050600086600160a060020a0316815260200190815260200160002060005081905550600260008181505480929190600190039190505550600191506100bd565b56",
     "abi": [
       {
+        "constant": true,
         "inputs": [
           {
-            "type": "address",
-            "name": "_address"
+            "name": "",
+            "type": "address"
           }
         ],
-        "constant": false,
-        "name": "getRegPaid",
+        "name": "registrantsPaid",
         "outputs": [
           {
-            "type": "uint256",
-            "name": "amtPaid"
+            "name": "",
+            "type": "uint256"
           }
         ],
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "type": "string",
-            "name": "_email"
-          }
-        ],
-        "constant": false,
-        "name": "buyTicketWithEmail",
+        "constant": true,
+        "inputs": [],
+        "name": "organizer",
         "outputs": [
           {
-            "type": "bool",
-            "name": "success"
+            "name": "",
+            "type": "address"
           }
         ],
         "type": "function"
       },
       {
+        "constant": false,
         "inputs": [
           {
-            "type": "address",
-            "name": "recipient"
+            "name": "recipient",
+            "type": "address"
           },
           {
-            "type": "uint256",
-            "name": "amount"
+            "name": "amount",
+            "type": "uint256"
           }
         ],
-        "constant": false,
         "name": "refundTicket",
         "outputs": [
           {
-            "type": "bool",
-            "name": "success"
+            "name": "success",
+            "type": "bool"
           }
         ],
         "type": "function"
       },
       {
-        "inputs": [],
         "constant": false,
+        "inputs": [],
         "name": "destroy",
         "outputs": [],
         "type": "function"
       },
       {
-        "inputs": [],
-        "constant": true,
-        "name": "owner",
-        "outputs": [
-          {
-            "type": "address",
-            "name": ""
-          }
-        ],
-        "type": "function"
-      },
-      {
+        "constant": false,
         "inputs": [
           {
-            "type": "uint256",
-            "name": "newquota"
+            "name": "newquota",
+            "type": "uint256"
           }
         ],
-        "constant": false,
         "name": "changeQuota",
-        "outputs": [],
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
         "type": "function"
       },
       {
-        "inputs": [],
         "constant": true,
+        "inputs": [],
         "name": "quota",
         "outputs": [
           {
-            "type": "uint256",
-            "name": ""
+            "name": "",
+            "type": "uint256"
           }
         ],
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "type": "address",
-            "name": "_address"
-          }
-        ],
-        "constant": false,
-        "name": "getRegEmail",
-        "outputs": [
-          {
-            "type": "string",
-            "name": "email"
-          }
-        ],
-        "type": "function"
-      },
-      {
-        "inputs": [],
         "constant": true,
+        "inputs": [],
         "name": "numRegistrants",
         "outputs": [
           {
-            "type": "uint256",
-            "name": ""
+            "name": "",
+            "type": "uint256"
           }
         ],
         "type": "function"
       },
       {
-        "inputs": [],
         "constant": false,
+        "inputs": [],
         "name": "buyTicket",
         "outputs": [
           {
-            "type": "bool",
-            "name": "success"
+            "name": "success",
+            "type": "bool"
           }
         ],
         "type": "function"
@@ -145,8 +116,42 @@
       {
         "inputs": [],
         "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "_amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "Deposit",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "_amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "Refund",
+        "type": "event"
       }
     ],
-    "address": "0x01c58b46ef349c94f841b08044b7ed8400517036"
+    "address": "0x099b7fa0e0831339f8b33b4d6665335b693c059b"
   }
 }
