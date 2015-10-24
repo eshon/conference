@@ -1,6 +1,9 @@
-## conference - a simple Ethereum smart contract example
+## Conference
 
-#### Setup
+A simple Ethereum smart contract example.
+
+
+### Install
 
 Install [testrpc](https://github.com/consensys/eth-testrpc): (or use geth)
 
@@ -13,6 +16,8 @@ Install [truffle](https://github.com/consensys/truffle):
 ```
 > npm install -g truffle // -g may require sudo
 ```
+
+### Run
 
 Run testrpc in one console window:
 
