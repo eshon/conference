@@ -10,7 +10,7 @@ contract('Conference', function(accounts) {
   		function(conference) {
   			conference.quota.call().then(
   				function(quota) { 
-  					assert.equal(quota, 350, "Quota doesn't match!"); 
+  					assert.equal(quota, 100, "Quota doesn't match!"); 
   			}).then(
   				function() { 
   					return conference.numRegistrants.call(); 
@@ -33,7 +33,7 @@ contract('Conference', function(accounts) {
   		function(conference) {
   			conference.quota.call().then(
   				function(quota) { 
-  					assert.equal(quota, 350, "Quota doesn't match!"); 
+  					assert.equal(quota, 100, "Quota doesn't match!"); 
   			}).then(
   				function() { 
   					return conference.changeQuota(300);
@@ -98,24 +98,19 @@ contract('Conference', function(accounts) {
             // Now try to issue refund as second user - should fail
             return conference.refundTicket(accounts[1], ticketPrice, {from: accounts[1]});
         }).then(
-          function(result) {  
-            console.log("result is: " + result);
-            console.log(result);
-            console.log(web3.toBigNumber(result));
-
-            assert.equal(false, result, "Refund result should be false");
-            var balance = web3.eth.getBalance(conference.address).toNumber();
-            assert.equal(web3.toBigNumber(balance), ticketPrice, "Balance should be unchanged");
+          function() {  
+            var balance = web3.eth.getBalance(conference.address);
+            assert.equal(balance, ticketPrice, "Balance should be unchanged");
             // Now try to issue refund as organizer/owner
             return conference.refundTicket(accounts[1], ticketPrice, {from: accounts[0]});
         }).then(
-          function(result) {
-            assert.equal(true, result, "Refund result should be true");
+          function() {
             var postRefundBalance = web3.eth.getBalance(conference.address).toNumber();
             assert.equal(postRefundBalance, initialBalance, "Balance should be initial balance");
             done();
         }).catch(done);
       }).catch(done);
     });
+
 });
 

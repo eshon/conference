@@ -1,14 +1,29 @@
-## conference
+## conference - a simple Ethereum smart contract example
 
-Uses truffle
+#### Setup
+
+Install [testrpc](https://github.com/consensys/eth-testrpc): (or use geth)
 
 ```
-npm install -g truffle
+> pip install eth-testrpc // requires python, pip, maybe venv
 ```
 
-Run testrpc then do truffle deploy, etc.
+Install [truffle](https://github.com/consensys/truffle):
 
-## contracts
+```
+> npm install -g truffle // -g may require sudo
+```
 
-contracts/Conference.sol is looking too complicated so ConferenceSimple.sol might be easier to use for real.
+Run testrpc in one console window:
+
+```
+(venv)> testrpc
+```
+In another console window run truffle from project root directory:
+
+```
+> truffle deploy
+> truffle test
+> truffle build
+```
 

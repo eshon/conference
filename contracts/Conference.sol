@@ -10,11 +10,11 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 
 	function Conference() {
 		organizer = msg.sender;		
-		quota = 350;
+		quota = 100;
 		numRegistrants = 0;
 	}
 
-	function buyTicket() public returns (bool success) {
+	function buyTicket() public returns (bool success){
 		if (numRegistrants >= quota) { return false; }
 		registrantsPaid[msg.sender] = msg.value;
 		numRegistrants++;
@@ -27,7 +27,7 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) public returns (bool success) {
+	function refundTicket(address recipient, uint amount) public returns (bool success){
 		if (msg.sender != organizer) { return false; }
 		if (registrantsPaid[recipient] == amount) { 
 			address myAddress = this;
@@ -36,7 +36,6 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 				Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
 				numRegistrants--;
-				
 				return true;
 			}
 		}

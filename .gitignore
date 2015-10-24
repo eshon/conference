@@ -1,3 +1,5 @@
 build
-config/development/contracts.json
+config/development/
+config/test/
+
 

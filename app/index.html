@@ -1,27 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Default Truffle App</title>
-  <link href="./app.css" rel='stylesheet' type='text/css'>
+  <title>Conference DApp</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .section {
+      margin: 20px;
+    }
+    button {
+      padding: 5px 16px;
+      border-radius: 4px;
+    }
+    button#changeQuota { background-color: yellow; }
+    button#buyTicket { background-color: #98fb98; }
+    button#refundTicket { background-color: pink; }
+
+  </style>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="./app.js"></script>
 </head>
 <body>
-  <h1>Hello from Truffle!</h1>
-  <h2>Commands available:</h2>
-  <pre>
-    build           => Build development version of app; creates ./build directory
-    compile         => Compile contracts
-    create:contract => Create a basic contract
-    create:test     => Create a basic test
-    deploy          => Deploy contracts to the network
-    dist            => Create distributable version of app (minified); creates ./dist directory
-    init            => Initialize new Ethereum project, including example contracts and tests
-    init:config     => Initialize default project configuration
-    init:contracts  => Initialize default contracts directory
-    init:tests      => Initialize tests directory structure and helpers
-    list            => List all available tasks
-    test            => Run tests
-    watch           => Watch project for changes and rebuild app automatically
-  </pre>
+  <h1>Conference DApp</h1>
+  <div class="section">
+    Contract deployed at: <div id="confAddress"></div>
+  </div>
+  <div class="section">
+    Organizer: <input type="text" id="confOrganizer" />
+  </div>
+  <div class="section">
+    Quota: <input type="text" id="confQuota" />
+      <button id="changeQuota">Change</button>
+      <span id="changeQuotaResult"></span>
+  </div>
+  <div class="section">
+    Registrants: <span id="numRegistrants">0</span>
+  </div>
+
+  <hr/>
+  
+  <div class="section">
+    <h2>Buy a Ticket</h2>
+    Ticket Price: <input type="text" id="ticketPrice" value="0.05" /> 
+      Buyer Address: <input type="text" id="buyerAddress" />
+      <button id="buyTicket">Buy Ticket</button>
+      <span id="buyTicketResult"></span>
+  </div>
+
+  <hr/>
+
+  <div class="section">
+    <h2>Refund a Ticket</h2>
+    Ticket Price: <input type="text" id="ticketPrice" value="0.05" /> 
+      Buyer Address: <input type="text" id="refBuyerAddress" />
+      <button id="refundTicket">Refund Ticket</button>
+      <span id="refundTicketResult"></span>
+  </div>
+
 </body>
 </html> 
