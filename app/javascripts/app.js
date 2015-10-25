@@ -10,7 +10,7 @@ window.onload = function() {
 		function(conf) {
 			myConferenceInstance = conf;
 			checkValues();
- });
+ 	});
 
 	// Check Values
 	function checkValues() {
