@@ -6,7 +6,7 @@ window.onload = function() {
 	$("#confAddress").html(Conference.deployed_address);
 
 	var myConferenceInstance;
-	Conference.new({from: accounts[0]}).then(
+	Conference.new({from: accounts[0], gas: 3141592}).then(
 		function(conf) {
 			myConferenceInstance = conf;
 			checkValues();
