@@ -14,12 +14,13 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		numRegistrants = 0;
 	}
 
-	function buyTicket() public returns (bool success){
-		if (numRegistrants >= quota) { return false; }
+	function buyTicket() public {
+		if (numRegistrants >= quota) { 
+			throw; // throw ensures funds will be returned
+		}
 		registrantsPaid[msg.sender] = msg.value;
 		numRegistrants++;
 		Deposit(msg.sender, msg.value);
-		return true;
 	}
 
 	function changeQuota(uint newquota) public {
@@ -27,8 +28,8 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) public returns (bool success){
-		if (msg.sender != organizer) { return false; }
+	function refundTicket(address recipient, uint amount) public {
+		if (msg.sender != organizer) { return; }
 		if (registrantsPaid[recipient] == amount) { 
 			address myAddress = this;
 			if (myAddress.balance >= amount) { 
@@ -36,10 +37,9 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 				Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
 				numRegistrants--;
-				return true;
 			}
 		}
-		return false;
+		return;
 	}
 
 	function destroy() {
