@@ -17,6 +17,7 @@
     button#changeQuota { background-color: yellow; }
     button#buyTicket { background-color: #98fb98; }
     button#refundTicket { background-color: pink; }
+    button#createWallet { background-color: #add8e6; }
 
   </style>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -37,6 +38,16 @@
   </div>
   <div class="section">
     Registrants: <span id="numRegistrants">0</span>
+  </div>
+
+  <hr/>
+  
+  <div class="section">
+    <h2>Create a Wallet</h2>
+    Password: <input type="text" id="password" />
+      <button id="createWallet">Create Wallet</button>
+      <br/><br/>
+      Wallet Address: <span id="wallet"></span>
   </div>
 
   <hr/>

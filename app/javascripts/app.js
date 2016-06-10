@@ -99,6 +99,30 @@ window.onload = function() {
 			});
 	}
 
+	// createWallet
+	function createWallet(password) {
+
+		var msgResult;
+
+		var secretSeed = lightwallet.keystore.generateRandomSeed();
+
+		lightwallet.keystore.deriveKeyFromPassword(password, function (err, pwDerivedKey) {
+
+			var ks = new lightwallet.keystore(secretSeed, pwDerivedKey);
+
+			// generate one new address/private key pairs
+			// the corresponding private keys are also encrypted
+			ks.generateNewAddress(pwDerivedKey, 1);
+			var addresses = ks.getAddresses();
+
+			console.log(addresses);
+
+			// Now set ks as transaction_signer in the hooked web3 provider
+			// and you can start using web3 using the keys/addresses in ks!
+		});
+
+	}
+
 	// Wire up the UI elements
 	$("#changeQuota").click(function() {
 		var val = $("#confQuota").val();
@@ -115,6 +139,18 @@ window.onload = function() {
 		var val = $("#ticketPrice").val();
 		var buyerAddress = $("#refBuyerAddress").val();
 		refundTicket(buyerAddress, web3.toWei(val));
+	});
+
+	$("#createWallet").click(function() {
+		var val = $("#password").val();
+		if (!val) {
+			$("#password").val("PASSWORD NEEDED").css("color", "red");
+			$("#password").click(function() { 
+				$("#password").val("").css("color", "black"); 
+			});
+		} else {
+			createWallet(val);
+		}
 	});
 
 	// Set value of wallet to accounts[1]
