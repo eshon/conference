@@ -1,20 +1,20 @@
 ## Conference
 
-A simple Ethereum smart contract example.
+A simple Ethereum smart contract and lightwallet example.
 
 
 ### Install
 
-Install [testrpc](https://github.com/consensys/eth-testrpc): (or use geth)
+Install [testrpc] (or use geth)
 
 ```
-$ pip install eth-testrpc // requires python, pip, maybe venv
+npm install -g ethereumjs-testrpc
 ```
 
 Install [truffle](https://github.com/consensys/truffle):
 
 ```
-$ npm install -g truffle // -g may require sudo
+$ npm install -g truffle 
 ```
 
 ### Run
@@ -27,8 +27,10 @@ Run testrpc in one console window:
 In another console window run truffle from project root directory:
 
 ```
+$ truffle init
+$ truffle compile
 $ truffle deploy
 $ truffle test
-$ truffle build
+$ truffle serve // server at localhost:8080
 ```
 
