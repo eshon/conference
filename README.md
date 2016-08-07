@@ -14,7 +14,7 @@ Current code uses *Truffle v2.0.4*
 Install [testrpc] (or use geth)
 
 ```
-npm install -g ethereumjs-testrpc
+$ npm install -g ethereumjs-testrpc
 ```
 
 Install [truffle](https://github.com/consensys/truffle):
@@ -30,7 +30,7 @@ If you don't have solc you can get it [here](https://github.com/ethereum/go-ethe
 Run testrpc in one console window:
 
 ```
-(venv)$ testrpc
+$ testrpc
 ```
 In another console window run truffle from project root directory:
 
