@@ -3,8 +3,8 @@ contract('Conference', function(accounts) {
 	var owner_account = accounts[0];
   var sender_account = accounts[1];
 
+
   it("Initial conference settings should match", function(done) {
-    var c = Conference.at(Conference.deployed_address);
   	
   	Conference.new({from: owner_account}).then(
   		function(conference) {
@@ -27,7 +27,6 @@ contract('Conference', function(accounts) {
   });
 
   it("Should update quota", function(done) {
-    var c = Conference.at(Conference.deployed_address);
   	
   	Conference.new({from: owner_account}).then(
   		function(conference) {
@@ -50,7 +49,6 @@ contract('Conference', function(accounts) {
 
 
   it("Should let you buy a ticket", function(done) {
-    var c = Conference.at(Conference.deployed_address);
 
   	Conference.new({ from: accounts[0] }).then(
   		function(conference) {
@@ -81,7 +79,6 @@ contract('Conference', function(accounts) {
   });
 
   it("Should issue a refund by owner only", function(done) {
-    var c = Conference.at(Conference.deployed_address);
     
     Conference.new({ from: accounts[0] }).then(
       function(conference) {
