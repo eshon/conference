@@ -4,6 +4,10 @@ A simple Ethereum smart contract and lightwallet example.
 
 For noobs! There might be bugs here.
 
+### Updates
+
+Current code uses *Truffle v2.0.4*
+
 
 ### Install
 
@@ -31,9 +35,8 @@ Run testrpc in one console window:
 In another console window run truffle from project root directory:
 
 ```
-$ truffle init
 $ truffle compile
-$ truffle deploy
+$ truffle migrate
 $ truffle test
 $ truffle serve // server at localhost:8080
 ```
