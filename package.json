@@ -1,0 +1,26 @@
+{
+  "name": "conference",
+  "version": "1.0.0",
+  "description": "A simple Ethereum smart contract and lightwallet example.",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "test":"truffle test",
+    "run": "truffle serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eshon/conference.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eshon/conference/issues"
+  },
+  "homepage": "https://github.com/eshon/conference#readme"
+}

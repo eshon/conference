@@ -1,3 +1,5 @@
+pragma solidity ^0.4.2;
+
 contract Conference {  // can be killed, so the owner gets sent the money in the end
 
 	address public organizer;
@@ -14,7 +16,7 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		numRegistrants = 0;
 	}
 
-	function buyTicket() public {
+	function buyTicket() payable public {
 		if (numRegistrants >= quota) { 
 			throw; // throw ensures funds will be returned
 		}
@@ -33,7 +35,7 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		if (registrantsPaid[recipient] == amount) { 
 			address myAddress = this;
 			if (myAddress.balance >= amount) { 
-				recipient.send(amount);
+				if (! recipient.send(amount) ) throw;
 				Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
 				numRegistrants--;
