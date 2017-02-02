@@ -1,3 +1,8 @@
+pragma solidity ^0.4.2;
+
+// FROM https://github.com/eshon/conference.git
+// fixes https://github.com/cicorias/conference.git
+
 contract Conference {  // can be killed, so the owner gets sent the money in the end
 
 	address public organizer;
@@ -14,7 +19,7 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		numRegistrants = 0;
 	}
 
-	function buyTicket() public {
+	function buyTicket() payable public {
 		if (numRegistrants >= quota) { 
 			throw; // throw ensures funds will be returned
 		}
@@ -28,12 +33,18 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		quota = newquota;
 	}
 
+	function currentQuota() public returns (uint) {
+		if (msg.sender != organizer) { return; }
+		return quota;
+	}
+
+
 	function refundTicket(address recipient, uint amount) public {
 		if (msg.sender != organizer) { return; }
 		if (registrantsPaid[recipient] == amount) { 
 			address myAddress = this;
 			if (myAddress.balance >= amount) { 
-				recipient.send(amount);
+				if (! recipient.send(amount) ) throw;
 				Refund(recipient, amount);
 				registrantsPaid[recipient] = 0;
 				numRegistrants--;

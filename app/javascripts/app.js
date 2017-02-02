@@ -46,6 +46,26 @@ function changeQuota(val) {
 		});
 }
 
+// get Quota
+function getQuota() {
+	myConferenceInstance.currentQuota({ from: accounts[0] }).then(
+		function () {
+			return myConferenceInstance.quota.call();
+		}).then(
+		function (quota) {
+			if (quota) {
+				var msgResult;
+				msgResult = "Change successful - quota is: " + quota.toString();
+			} else {
+				msgResult = "Change failed";
+			}
+			$("#currentQuotaResult").html(msgResult);
+			console.log(quota.toString())
+			$("#currentQuota").val(quota)
+		});
+}
+
+
 // buyTicket
 function buyTicket(buyerAddress, ticketPrice) {
 
@@ -193,6 +213,10 @@ window.onload = function() {
 	$("#changeQuota").click(function() {
 		var val = $("#confQuota").val();
 		changeQuota(val);
+	});
+
+	$("#currentQuota").click(function() {
+		getQuota();
 	});
 
 	$("#buyTicket").click(function() {
