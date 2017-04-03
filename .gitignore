@@ -1,5 +1,5 @@
 build
 config/development/
 config/test/
-
+node_modules
 

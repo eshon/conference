@@ -1,25 +1,26 @@
+var Conference = artifacts.require("./Conference.sol");
+
 contract('Conference', function(accounts) {
 	console.log(accounts);
 	var owner_account = accounts[0];
   var sender_account = accounts[1];
 
-
   it("Initial conference settings should match", function(done) {
-  	
+
   	Conference.new({from: owner_account}).then(
   		function(conference) {
   			conference.quota.call().then(
-  				function(quota) { 
-  					assert.equal(quota, 100, "Quota doesn't match!"); 
+  				function(quota) {
+  					assert.equal(quota, 100, "Quota doesn't match!");
   			}).then(
-  				function() { 
-  					return conference.numRegistrants.call(); 
+  				function() {
+  					return conference.numRegistrants.call();
   			}).then(
-  				function(num) { 
+  				function(num) {
   					assert.equal(num, 0, "Registrants doesn't match!");
   					return conference.organizer.call();
   			}).then(
-  				function(organizer) { 
+  				function(organizer) {
   					assert.equal(organizer, owner_account, "Owner doesn't match!");
   					done();
   			}).catch(done);
@@ -27,20 +28,20 @@ contract('Conference', function(accounts) {
   });
 
   it("Should update quota", function(done) {
-  	
+
   	Conference.new({from: owner_account}).then(
   		function(conference) {
   			conference.quota.call().then(
-  				function(quota) { 
-  					assert.equal(quota, 100, "Quota doesn't match!"); 
+  				function(quota) {
+  					assert.equal(quota, 100, "Quota doesn't match!");
   			}).then(
-  				function() { 
+  				function() {
   					return conference.changeQuota(300);
   			}).then(
-  				function() { 
+  				function() {
   					return conference.quota.call()
   			}).then(
-  				function(quota) { 
+  				function(quota) {
   					assert.equal(quota, 300, "New quota is not correct!");
   					done();
   			}).catch(done);
@@ -54,21 +55,21 @@ contract('Conference', function(accounts) {
   		function(conference) {
 
         var ticketPrice = web3.toWei(.05, 'ether');
-        var initialBalance = web3.eth.getBalance(conference.address).toNumber();  
+        var initialBalance = web3.eth.getBalance(conference.address).toNumber();
 
   			conference.buyTicket({ from: accounts[1], value: ticketPrice }).then(
           function() {
   					var newBalance = web3.eth.getBalance(conference.address).toNumber();
             var difference = newBalance - initialBalance;
   					assert.equal(difference, ticketPrice, "Difference should be what was sent");
-  					return conference.numRegistrants.call(); 
+  					return conference.numRegistrants.call();
   			}).then(
-  				function(num) { 
+  				function(num) {
   					assert.equal(num, 1, "there should be 1 registrant");
   					return conference.registrantsPaid.call(sender_account);
   			}).then(
   				function(amount) {
-  					assert.equal(amount.toNumber(), ticketPrice, "Sender's paid but is not listed as paying");	
+  					assert.equal(amount.toNumber(), ticketPrice, "Sender's paid but is not listed as paying");
   					return web3.eth.getBalance(conference.address);
   			}).then(
   				function(bal) {
@@ -79,12 +80,12 @@ contract('Conference', function(accounts) {
   });
 
   it("Should issue a refund by owner only", function(done) {
-    
+
     Conference.new({ from: accounts[0] }).then(
       function(conference) {
 
         var ticketPrice = web3.toWei(.05, 'ether');
-        var initialBalance = web3.eth.getBalance(conference.address).toNumber(); 
+        var initialBalance = web3.eth.getBalance(conference.address).toNumber();
 
         conference.buyTicket({ from: accounts[1], value: ticketPrice }).then(
           function() {
@@ -95,7 +96,7 @@ contract('Conference', function(accounts) {
             // Now try to issue refund as second user - should fail
             return conference.refundTicket(accounts[1], ticketPrice, {from: accounts[1]});
         }).then(
-          function() {  
+          function() {
             var balance = web3.eth.getBalance(conference.address);
             assert.equal(balance, ticketPrice, "Balance should be unchanged");
             // Now try to issue refund as organizer/owner
@@ -110,4 +111,3 @@ contract('Conference', function(accounts) {
     });
 
 });
-
