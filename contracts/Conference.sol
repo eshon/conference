@@ -13,6 +13,11 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		quota = 100;
 		numRegistrants = 0;
 	}
+	
+	modifier restricted(){
+        require(msg.sender == organizer, "You are not authorized to perform this action");
+        _;
+    	}
 
 	function buyTicket() public {
 		if (numRegistrants >= quota) { 
@@ -23,13 +28,11 @@ contract Conference {  // can be killed, so the owner gets sent the money in the
 		Deposit(msg.sender, msg.value);
 	}
 
-	function changeQuota(uint newquota) public {
-		if (msg.sender != organizer) { return; }
+	function changeQuota(uint newquota) public restricted {
 		quota = newquota;
 	}
 
-	function refundTicket(address recipient, uint amount) public {
-		if (msg.sender != organizer) { return; }
+	function refundTicket(address recipient, uint amount) public restricted {
 		if (registrantsPaid[recipient] == amount) { 
 			address myAddress = this;
 			if (myAddress.balance >= amount) { 
